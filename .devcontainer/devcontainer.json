@@ -1,4 +1,5 @@
 {
+  "name": "C DevContainer",
   "build": {
     "dockerfile": "Dockerfile",
     "context": ".."
@@ -11,13 +12,14 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "llvm-vs-code-extensions.vscode-clangd",
         "twxs.cmake",
-        "ms-vscode.makefile-tools"
+        "ms-vscode.makefile-tools",
+        "ms-vscode.cpptools-extension-pack",
+        "jbenden.c-cpp-flylint"
       ]
     }
   },
-  "workspaceMount": "source=${localWorkspaceFolder},target=/project,type=bind",
-  "workspaceFolder": "/project",
-  "onCreateCommand": "apt update && apt install -y git && git config --global --add safe.directory /project"
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "workspaceFolder": "/workspace",
+  "onCreateCommand": "apt update && apt install -y git && git config --global --add safe.directory /workspace"
 }
