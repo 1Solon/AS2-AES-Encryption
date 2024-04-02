@@ -1,9 +1,7 @@
-FROM ubuntu:18.04
+FROM ubuntu:24.04
 LABEL Description="Build environment"
 
 ENV HOME /root
-
-SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get -y --no-install-recommends install \
     build-essential \
@@ -12,17 +10,14 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
     gdb \
     wget
 
-# Let us add some heavy dependency
-RUN cd ${HOME} && \
-    wget --no-check-certificate --quiet \
-        https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/boost_1_77_0.tar.gz && \
-        tar xzf ./boost_1_77_0.tar.gz && \
-        cd ./boost_1_77_0 && \
-        ./bootstrap.sh && \
-        ./b2 install && \
-        cd .. && \
-        rm -rf ./boost_1_77_0
+# Install git
+RUN mkdir -p -m 755 /etc/apt/keyrings && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+&& chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+&& apt install gh -y
 
-# Add a script to create the symbolic link at runtime
-RUN echo "ln -s /build/compile_commands.json /compile_commands.json" > /root/create_symlink.sh && \
-    chmod +x /root/create_symlink.sh
+# Install zsh
+RUN apt-get update && apt-get install -y zsh && rm -rf /var/lib/apt/lists/*
+
+# Make zsh the default shell
+RUN chsh -s $(which zsh)
