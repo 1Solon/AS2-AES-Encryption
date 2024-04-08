@@ -27,7 +27,7 @@ jobs:
     needs: setup
     steps:
       - name: Print working directory
-        run: pwd
+        run: ls
       - name: Run keyExpansion tests
         run: |
           cd src/functions/keyExpansion
