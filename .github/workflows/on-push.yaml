@@ -26,9 +26,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup
     steps:
+      - name: Print working directory
+        run: pwd
       - name: Run keyExpansion tests
         run: |
-          cd ./src/functions/keyExpansion
+          cd src/functions/keyExpansion
           pytest keyExpansion-test.py
 
     
