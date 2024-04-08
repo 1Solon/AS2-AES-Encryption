@@ -17,7 +17,7 @@ string(APPEND CMAKE_C_FLAGS " -Werror") # Treat warnings as errors, disable if y
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include_directories(${CMAKE_SOURCE_DIR})
-file(GLOB SOURCES "${CMAKE_SOURCE_DIR}/src/*.c") # Change to .c for C files, you can change this to .cpp for C++ files
+file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/src/*.c") # Change to .c for C files, you can change this to .cpp for C++ files
 
 # Set the output directory for the build executables
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build)
