@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
-  
 
 jobs:
   setup:
@@ -28,7 +27,7 @@ jobs:
     needs: setup
     steps:
       - name: Run keyExpansion tests
-        run: /
+        run: |
           cd src/functions/keyExpansion
           pytest keyExpansion-test.py
 
