@@ -2,14 +2,17 @@ import pytest, ctypes, subprocess, os
 from ctypes import c_uint8 as uint8_t
 
 def test_key_expansion():
+    # Define the directory that this is running in
+    path = "src/functions/keyExpansion/"
+
     # Step 1: Compile the .c file into a .o file
-    subprocess.run(["gcc", "-c", "-fpic", "-o", "keyExpansion.o", "keyExpansion.c"], check=True)
+    subprocess.run(["gcc", "-c", "-fpic", "-o", path + "keyExpansion.o", path + "keyExpansion.c"], check=True)
 
     # Step 2: Compile the C source file into a shared library
-    subprocess.run(["gcc", "-shared", "-o", "keyExpansion.so", "keyExpansion.o"], check=True)
+    subprocess.run(["gcc", "-shared", "-o", path + "keyExpansion.so", path + "keyExpansion.o"], check=True)
 
     # Step 3: Load the shared library into ctypes
-    keyExpansion = ctypes.CDLL(os.path.abspath("keyExpansion.so"))
+    keyExpansion = ctypes.CDLL(path + "keyExpansion.so")
 
     # Define the constants
     S_BOX = [

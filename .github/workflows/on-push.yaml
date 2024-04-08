@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup:
+  AES-Testing-Suite:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -21,15 +21,6 @@ jobs:
 
       - name: Install dependencies
         run: pip install pytest
-
-  test-keyExpansion:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Print working directory
-        run: pwd
-      - name: Run keyExpansion tests
-        run: pytest keyExpansion-test.py
-        working-directory: ../src/functions/keyExpansion
-
-    
+      
+      - name: Run tests
+        run: pytest
