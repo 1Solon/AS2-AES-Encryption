@@ -2,3 +2,4 @@
 *.so*
 *cache*
 /build
+language-server-log.txt
