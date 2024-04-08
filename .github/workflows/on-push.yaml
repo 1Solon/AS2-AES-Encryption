@@ -30,6 +30,6 @@ jobs:
         run: pwd
       - name: Run keyExpansion tests
         run: pytest keyExpansion-test.py
-        working-directory: /src/functions/keyExpansion
+        working-directory: ./src/functions/keyExpansion
 
     
