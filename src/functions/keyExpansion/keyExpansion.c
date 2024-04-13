@@ -1,4 +1,4 @@
-#include "KeyExpansion.h"
+#include "keyExpansion.h"
 
 void KeyExpansion(const uint8_t *inputKey, uint8_t *expandedKeys,
                   const uint8_t *s_box, const uint8_t *r_con, const int keyLen,
