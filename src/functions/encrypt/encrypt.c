@@ -3,8 +3,6 @@
 
 #include "encrypt.h"
 
-#define AES_BLOCK_SIZE 16 // AES block size in bytes
-
 // I hated implementing this, this took me HOURS!
 uint8_t gmul(uint8_t x, uint8_t y) {
   uint8_t p = 0;
