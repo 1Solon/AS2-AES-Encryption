@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10.2)
 
 # You can edit below to change the name of the compiled executable
-project(myProgram)
+project(Rijndael)
 
 set(CMAKE_C_STANDARD 11) # Using C11 standard, you can change this as needed
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -21,11 +21,6 @@ file(GLOB_RECURSE SOURCES "${CMAKE_SOURCE_DIR}/src/*.c") # Change to .c for C fi
 
 # Set the output directory for the build executables
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build)
-
-add_executable(${PROJECT_NAME} ${SOURCES})
-
-# Set the output file extension to .exe
-set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".exe")
 
 # Add the shared library
 add_library(${PROJECT_NAME}_lib SHARED ${SOURCES})
