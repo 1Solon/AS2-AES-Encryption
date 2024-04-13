@@ -58,7 +58,7 @@ test_vectors = [
     ("2b7e151628aed2a6abf7158809cf4f3c", "f69f2445df4f9b17ad2b417be66c3710", "7b0c785e27e8ad3f8223207104725dd4")
 ]
 
-lib = ctypes.CDLL("build/libmyProgram_lib.so")
+lib = ctypes.CDLL("build/libRijndael_lib.so")
 
 @pytest.mark.parametrize("key,plain,cipher_text", test_vectors)
 def test_Decrypt(key, plain, cipher_text):
