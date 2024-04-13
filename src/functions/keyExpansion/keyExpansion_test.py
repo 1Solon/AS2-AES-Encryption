@@ -38,17 +38,22 @@ def test_key_expansion():
         0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36, 0x6C
     ]
 
-    # Define the input variables
-    inputKey = bytes.fromhex('E8E9EAEBEDEEEFF0F2F3F4F5F7F8F9FA')
-    expandedKeys = (uint8_t * 16)()
-    s_box = (uint8_t * len(S_BOX))(*S_BOX)
-    r_con = (uint8_t * len(R_CON))(*R_CON)
-    keyLen = 4
-    totalKeyLen = 16
+    test_cases = [
+        ('E8E9EAEBEDEEEFF0F2F3F4F5F7F8F9FA', 'E8E9EAEBF76E03706A1552183715FF1A'),
+        ('A1A2A3A4A5A6A7A8A9AAABACADAEAFB0', 'A1A2A3A49AA8EA965A2F7A2E4BF54B90'),
+        ('B1B2B3B4B5B6B7B8B9BABBBDBEBFB0B1', 'B1B2B3B487DF3E7C1B6D2E6B235C51C4'),
+        ('C1C2C3C4C5C6C7C8C9CACBCCCDCECFD0', 'C1C2C3C4E5ECDFBC2972BA656D86F7C0'),
+        ('D1D2D3D4D5D6D7D8D9DADBDCDDDEDFE0', 'D1D2D3D465B49BEAEAA01CA70E3C4020')
+    ]
 
-    # Call the function
-    keyExpansion.KeyExpansion(inputKey, expandedKeys, s_box, r_con, keyLen, totalKeyLen)
-    testKey = (''.join([hex(key)[2:].zfill(2) for key in expandedKeys])).upper()
+    for inputKey, expected in test_cases:
+        expandedKeys = (uint8_t * 16)()
+        s_box = (uint8_t * len(S_BOX))(*S_BOX)
+        r_con = (uint8_t * len(R_CON))(*R_CON)
+        keyLen = 4
+        totalKeyLen = 16
 
-    # Check the result against the expected value
-    assert testKey == 'E8E9EAEBF46E03706F1552CF3E15D867'
+        keyExpansion.KeyExpansion(bytes.fromhex(inputKey), expandedKeys, s_box, r_con, keyLen, totalKeyLen)
+        testKey = (''.join([hex(key)[2:].zfill(2) for key in expandedKeys])).upper()
+
+        assert testKey == expected, f"For inputKey: {inputKey}, expected: {expected}, but got: {testKey}"
