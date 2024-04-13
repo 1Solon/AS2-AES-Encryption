@@ -26,14 +26,14 @@ The `aes_encrypt_block` function takes a 16-byte plaintext block and a 16-byte k
 To use the library, simply include the `libRijndael_lib.so` or `rijndael.h`  header file in your project and link against the `rijndael` library.
 
 ## Building
-To build the library, simply run the following commands:
+To build the library, run the following commands:
 ```bash
 cmake . -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && make
 ```
 This will generate the `libRijndael_lib.so` shared library in the `build` directory.
 
 ## Testing
-To run the tests, simply run the following command:
+To run the tests, run the following command:
 ```bash
 pytest
 ```
