@@ -30,7 +30,7 @@ void KeyExpansion(const uint8_t *inputKey, uint8_t *expandedKeys,
 
       // XOR with Rcon
       temp[0] = temp[0] ^
-                r_con[i / keyLen - 1]; // Note the index adjustment for R_CON
+                r_con[i / keyLen - 1];
     }
 
     for (int j = 0; j < 4; j++) {

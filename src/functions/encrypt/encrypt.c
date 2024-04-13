@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "encrypt.h"
+#include "Encrypt.h"
 
 // I hated implementing this, this took me HOURS!
 uint8_t gmul(uint8_t x, uint8_t y) {
@@ -63,6 +63,12 @@ void ShiftRows(uint8_t state[AES_BLOCK_SIZE]) {
 void MixColumns(uint8_t state[AES_BLOCK_SIZE]) {
   uint8_t tmp[AES_BLOCK_SIZE];
 
+  // The matrix is:
+  // 02 03 01 01
+  // 01 02 03 01
+  // 01 01 02 03
+  // 03 01 01 02
+
   for (int i = 0; i < 4; ++i) {
     tmp[4 * i + 0] =
         (uint8_t)(gmul(0x02, state[4 * i + 0]) ^ gmul(0x03, state[4 * i + 1]) ^
@@ -81,7 +87,7 @@ void MixColumns(uint8_t state[AES_BLOCK_SIZE]) {
   }
 }
 
-void encrypt(uint8_t *input, uint8_t *key, const uint8_t *s_box) {
+void Encrypt(uint8_t *input, uint8_t *key, const uint8_t *s_box) {
   AddRoundKey(input, key);
 
   for (int round = 1; round < 10; ++round) {

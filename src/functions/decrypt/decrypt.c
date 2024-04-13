@@ -1,4 +1,4 @@
-#include "decrypt.h"
+#include "Decrypt.h"
 
 void InvSubBytes(uint8_t state[AES_BLOCK_SIZE], const uint8_t inv_s_box[256]) {
   for (int i = 0; i < 16; ++i) {
@@ -24,7 +24,7 @@ void InvShiftRows(uint8_t state[AES_BLOCK_SIZE]) {
   state[10] = state[2];
   state[2] = temp;
 
-  // Row 3, shift right by 3 (or left by 1)
+  // Row 3, shift right by 3
   temp = state[3];
   state[3] = state[7];
   state[7] = state[11];
@@ -55,9 +55,8 @@ void InvMixColumns(uint8_t state[AES_BLOCK_SIZE]) {
   }
 }
 
-void decrypt(uint8_t *input, uint8_t *key, const uint8_t *inv_s_box) {
-  AddRoundKey(input, key + 10 * AES_BLOCK_SIZE); // Initial round key (last one
-                                                 // used in encryption)
+void Decrypt(uint8_t *input, uint8_t *key, const uint8_t *inv_s_box) {
+  AddRoundKey(input, key + 10 * AES_BLOCK_SIZE);
 
   for (int round = 9; round > 0; --round) {
     InvShiftRows(input);
@@ -66,8 +65,7 @@ void decrypt(uint8_t *input, uint8_t *key, const uint8_t *inv_s_box) {
     InvMixColumns(input);
   }
 
-  // Final round (no InvMixColumns)
   InvShiftRows(input);
   InvSubBytes(input, inv_s_box);
-  AddRoundKey(input, key); // First round key (original key)
+  AddRoundKey(input, key);
 }

@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "functions/decrypt/decrypt.h"
-#include "functions/encrypt/encrypt.h"
+#include "functions/Decrypt/Decrypt.h"
+#include "functions/Encrypt/Encrypt.h"
 #include "functions/keyExpansion/keyExpansion.h"
 
 #define KEY_LEN 16        // 128-bit key length in bytes
@@ -141,7 +141,7 @@ int main(void) {
   print_hex("Key", key_bytes, sizeof(key_bytes));
 
   KeyExpansion(key_bytes, expandedKeys, S_BOX, R_CON, KEY_LEN, TOTAL_KEY_LEN);
-  encrypt(text_bytes, expandedKeys, S_BOX);
+  Encrypt(text_bytes, expandedKeys, S_BOX);
 
   printf("Ciphertext: ");
   for (int i = 0; i < AES_BLOCK_SIZE; i++) {
@@ -149,7 +149,7 @@ int main(void) {
   }
 
   // Decrypt and print if it matches the original plaintext
-  decrypt(text_bytes, expandedKeys, INV_S_BOX);
+  Decrypt(text_bytes, expandedKeys, INV_S_BOX);
   printf("\nDecrypted: ");
   for (int i = 0; i < AES_BLOCK_SIZE; i++) {
     printf("%02x", text_bytes[i]);

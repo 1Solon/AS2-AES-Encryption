@@ -47,7 +47,7 @@ def test_Encrypt(key, plain, cipher):
 
     lib.KeyExpansion(bytes.fromhex(key), expandedKeys, S_BOX, R_CON, keyLen, totalKeyLen)
 
-    lib.encrypt(text, expandedKeys, S_BOX)
+    lib.Encrypt(text, expandedKeys, S_BOX)
 
     # Convert the result to a hex string
     result = (''.join([hex(byte)[2:].zfill(2) for byte in text])).upper()

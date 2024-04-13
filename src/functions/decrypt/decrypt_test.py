@@ -72,7 +72,7 @@ def test_Decrypt(key, plain, cipher_text):
 
     lib.KeyExpansion(bytes.fromhex(key), expandedKeys, S_BOX, R_CON, keyLen, totalKeyLen)
 
-    lib.decrypt(cipher, expandedKeys, INV_S_BOX)
+    lib.Decrypt(cipher, expandedKeys, INV_S_BOX)
 
     # Convert the result to a hex string
     result = (''.join([hex(byte)[2:].zfill(2) for byte in cipher])).upper()
