@@ -85,7 +85,7 @@ int main(void) {
     KeyExpansion(key_bytes, expandedKeys, S_BOX, R_CON, KEY_LEN, TOTAL_KEY_LEN);
     encrypt(text_bytes, expandedKeys, S_BOX);
     
-    printf("Encrypted text: ");
+    printf("Ciphertext: ");
     for (int i = 0; i < AES_BLOCK_SIZE; i++) {
         printf("%02x", text_bytes[i]);
     }

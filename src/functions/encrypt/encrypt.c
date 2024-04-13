@@ -23,30 +23,10 @@ uint8_t gmul(uint8_t x, uint8_t y) {
     return p;
 }
 
-void print_state(const char* message, uint8_t* state, int len) {
-    printf("%s: ", message);
-    for (int i = 0; i < len; i++) {
-        printf("%02x", state[i]);
-    }
-    printf("\n");
-}
-
 void AddRoundKey(uint8_t input[AES_BLOCK_SIZE], const uint8_t key[AES_BLOCK_SIZE]) {
-    printf("Input and Key before AddRoundKey:\n");
-    for (int i = 0; i < AES_BLOCK_SIZE; i++) {
-        printf("%02x ", input[i]);
-    }
-    printf("\n");
-    for (int i = 0; i < AES_BLOCK_SIZE; i++) {
-        printf("%02x ", key[i]);
-    }
-    printf("\n");
-
     for (int i = 0; i < AES_BLOCK_SIZE; i++) {
         input[i] ^= key[i];
-        printf("%02x ", input[i]); // Print result of XOR operation for each byte
     }
-    printf("\n");
 }
 
 void SubBytes(uint8_t state[AES_BLOCK_SIZE], const uint8_t s_box[256]) {
@@ -98,23 +78,16 @@ void MixColumns(uint8_t state[AES_BLOCK_SIZE]) {
 
 
 void encrypt(uint8_t* input, uint8_t* key, const uint8_t* s_box) {
-    print_state("Initial state", input, AES_BLOCK_SIZE);
     AddRoundKey(input, key);
-    print_state("After initial AddRoundKey", input, AES_BLOCK_SIZE);
 
     for (int round = 1; round < 10; ++round) {
         SubBytes(input, s_box);
-        print_state("After SubBytes", input, AES_BLOCK_SIZE);
         ShiftRows(input);
-        print_state("After ShiftRows", input, AES_BLOCK_SIZE);
         MixColumns(input);
-        print_state("After MixColumns", input, AES_BLOCK_SIZE);
         AddRoundKey(input, key + round * AES_BLOCK_SIZE);
-        print_state("After AddRoundKey", input, AES_BLOCK_SIZE);
     }
 
     SubBytes(input, s_box);
     ShiftRows(input);
     AddRoundKey(input, key + 10 * AES_BLOCK_SIZE);
-    print_state("Final state", input, AES_BLOCK_SIZE);
 }
