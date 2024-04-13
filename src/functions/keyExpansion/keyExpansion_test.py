@@ -38,6 +38,7 @@ def test_key_expansion():
         0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36, 0x6C
     ]
 
+    # Define the test cases, these were taken from the AES standard
     test_cases = [
         ('E8E9EAEBEDEEEFF0F2F3F4F5F7F8F9FA', 'E8E9EAEBF76E03706A1552183715FF1A'),
         ('A1A2A3A4A5A6A7A8A9AAABACADAEAFB0', 'A1A2A3A49AA8EA965A2F7A2E4BF54B90'),
@@ -53,6 +54,7 @@ def test_key_expansion():
         keyLen = 4
         totalKeyLen = 16
 
+        # Call the function from the shared library and get the result back as a string of hex values 
         keyExpansion.KeyExpansion(bytes.fromhex(inputKey), expandedKeys, s_box, r_con, keyLen, totalKeyLen)
         testKey = (''.join([hex(key)[2:].zfill(2) for key in expandedKeys])).upper()
 
