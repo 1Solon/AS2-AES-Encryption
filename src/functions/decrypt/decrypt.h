@@ -1,4 +1,4 @@
-#include "../Encrypt/Encrypt.h"
+#include "../encrypt/encrypt.h"
 #include <stdint.h>
 #include <stdio.h>
 
