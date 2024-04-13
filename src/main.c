@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "functions/decrypt/decrypt.h"
 #include "functions/encrypt/encrypt.h"
 #include "functions/keyExpansion/keyExpansion.h"
 
@@ -84,7 +85,7 @@ static const uint8_t S_BOX[256] = {
     0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f,
     0xb0, 0x54, 0xbb, 0x16};
 
-uint8_t inv_s_box[256] = {
+static const uint8_t INV_S_BOX[256] = {
     0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e,
     0x81, 0xf3, 0xd7, 0xfb, 0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87,
     0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb, 0x54, 0x7b, 0x94, 0x32,
@@ -143,6 +144,13 @@ int main(void) {
   encrypt(text_bytes, expandedKeys, S_BOX);
 
   printf("Ciphertext: ");
+  for (int i = 0; i < AES_BLOCK_SIZE; i++) {
+    printf("%02x", text_bytes[i]);
+  }
+
+  // Decrypt and print if it matches the original plaintext
+  decrypt(text_bytes, expandedKeys, INV_S_BOX);
+  printf("\nDecrypted: ");
   for (int i = 0; i < AES_BLOCK_SIZE; i++) {
     printf("%02x", text_bytes[i]);
   }
