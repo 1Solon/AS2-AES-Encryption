@@ -14,6 +14,7 @@ _Assignment to build a Rijndael-AES implementation in c_
 
 </div>
 
+## What is this?
 This is a simple implementation of the Rijndael-AES encryption algorithm in C. The library exposes two functions:
 ```c
 unsigned char *aes_encrypt_block(unsigned char *plaintext, unsigned char *key);
