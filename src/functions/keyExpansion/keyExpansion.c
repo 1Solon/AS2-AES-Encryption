@@ -4,12 +4,10 @@ void KeyExpansion(const uint8_t* inputKey, uint8_t* expandedKeys, const uint8_t*
     int i = 0;
     uint8_t temp[4];
 
-    // The first round key is the key itself
     for (i = 0; i < keyLen; i++) {
         expandedKeys[i] = inputKey[i];
     }
 
-    // All other round keys are derived from the previous round keys
     for (; i < totalKeyLen; i += 4) {
         for (int j = 0; j < 4; j++) {
             temp[j] = expandedKeys[(i - 4) + j];
@@ -18,10 +16,7 @@ void KeyExpansion(const uint8_t* inputKey, uint8_t* expandedKeys, const uint8_t*
         if (i % keyLen == 0) {
             // Rotate the 4-byte word
             uint8_t k = temp[0];
-            temp[0] = temp[1];
-            temp[1] = temp[2];
-            temp[2] = temp[3];
-            temp[3] = k;
+            temp[0] = temp[1]; temp[1] = temp[2]; temp[2] = temp[3]; temp[3] = k;
 
             // Apply S-box substitution
             for (int j = 0; j < 4; j++) {
@@ -29,7 +24,7 @@ void KeyExpansion(const uint8_t* inputKey, uint8_t* expandedKeys, const uint8_t*
             }
 
             // XOR with Rcon
-            temp[0] = temp[0] ^ r_con[i / keyLen];
+            temp[0] = temp[0] ^ r_con[i / keyLen - 1]; // Note the index adjustment for R_CON
         }
 
         for (int j = 0; j < 4; j++) {

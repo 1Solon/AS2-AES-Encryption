@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "functions/keyExpansion/keyExpansion.h"
 #include "functions/encrypt/encrypt.h"
@@ -19,10 +20,24 @@ void text_to_input(const char* text, uint8_t* input, int size) {
     }
 }
 
-void hex_string_to_byte_array(const char* hex_string, uint8_t* byte_array) {
-    for (size_t i = 0; i < KEY_LEN; ++i) {
-        sscanf(hex_string + 2*i, "%02hhx", &byte_array[i]);
+int hex_to_bytes(const char *hex_str, uint8_t *byte_array, size_t byte_array_len) {
+    char buf[3] = {0};
+    size_t len = strlen(hex_str);
+    if (len % 2 != 0 || len / 2 > byte_array_len) return -1;
+
+    for (size_t i = 0; i < len; i += 2) {
+        strncpy(buf, &hex_str[i], 2);
+        byte_array[i / 2] = (uint8_t)strtol(buf, NULL, 16);
     }
+    return 0;
+}
+
+void print_hex(const char *label, uint8_t *data, size_t data_len) {
+    printf("%s: ", label);
+    for (size_t i = 0; i < data_len; i++) {
+        printf("%02x", data[i]);
+    }
+    printf("\n");
 }
 
 static const uint8_t S_BOX[256] = {
@@ -45,26 +60,34 @@ static const uint8_t S_BOX[256] = {
   0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16 
   };
 
-static const uint8_t R_CON[11] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36, 0x6C };
+static const uint8_t R_CON[11] = {
+    0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36, 0x00
+};
+
 
 int main(void) {
-    uint8_t key[KEY_LEN];
+    const char* text_hex = "00112233445566778899aabbccddeeff";
+    const char* key_hex = "111102030405060708090a0b0c0d0e0f";
+    uint8_t text_bytes[16];
+    uint8_t key_bytes[16];
     uint8_t expandedKeys[TOTAL_KEY_LEN];
-    uint8_t input[AES_BLOCK_SIZE];
 
-    const char* text = "00112233445566778899aabbccddeeff";
-    text_to_input(text, input, AES_BLOCK_SIZE);
+    if (hex_to_bytes(text_hex, text_bytes, sizeof(text_bytes)) < 0 ||
+        hex_to_bytes(key_hex, key_bytes, sizeof(key_bytes)) < 0) {
+        printf("Error converting hex to bytes.\n");
+        return 1;
+    }
 
-    const char* hex_key = "000102030405060708090a0b0c0d0e0f";
-    hex_string_to_byte_array(hex_key, key);
+    print_hex("Plaintext", text_bytes, sizeof(text_bytes));
+    print_hex("Key", key_bytes, sizeof(key_bytes));
 
 
-    KeyExpansion(key, expandedKeys, S_BOX, R_CON, KEY_LEN, TOTAL_KEY_LEN);
-    encrypt(input, expandedKeys, S_BOX);
+    KeyExpansion(text_bytes, expandedKeys, S_BOX, R_CON, KEY_LEN, TOTAL_KEY_LEN);
+    encrypt(text_bytes, expandedKeys, S_BOX);
     
     printf("Encrypted text: ");
     for (int i = 0; i < AES_BLOCK_SIZE; i++) {
-        printf("%02x", input[i]);
+        printf("%02x", text_bytes[i]);
     }
 
     return 0;
