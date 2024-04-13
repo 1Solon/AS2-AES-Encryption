@@ -15,7 +15,8 @@
         "twxs.cmake",
         "ms-vscode.makefile-tools",
         "ms-vscode.cpptools-extension-pack",
-        "jbenden.c-cpp-flylint"
+        "jbenden.c-cpp-flylint",
+        "xaver.clang-format"
       ]
     }
   },

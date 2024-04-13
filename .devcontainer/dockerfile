@@ -26,5 +26,8 @@ RUN echo "ln -s /build/compile_commands.json /compile_commands.json" > /root/cre
 # Install zsh
 RUN apt-get update && apt-get install -y zsh && rm -rf /var/lib/apt/lists/*
 
+# Install clang-format
+RUN apt-get install clang-format -y
+
 # Make zsh the default shell
 RUN chsh -s $(which zsh)
