@@ -1,6 +1,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#include "encrypt.h"
+
 #define AES_BLOCK_SIZE 16 // AES block size in bytes
 
 // I hated implementing this, this took me HOURS!
@@ -75,9 +77,21 @@ void MixColumns(uint8_t state[AES_BLOCK_SIZE]) {
 }
 
 
-int encrypt(uint8_t* input, uint8_t* key, const uint8_t* s_box, const uint8_t* r_con, const int keyLen, const int totalKeyLen) {
+void encrypt(uint8_t* input, uint8_t* key, const uint8_t* s_box) {
 
     // Apply the initial AddRoundKey step
     AddRoundKey(input, key);
 
+    // Main encryption loop
+    for (int round = 1; round < 10; ++round) {
+        SubBytes(input, s_box);
+        ShiftRows(input);
+        MixColumns(input);
+        AddRoundKey(input, key + round * AES_BLOCK_SIZE);
+    }
+
+    // Final round (no MixColumns)
+    SubBytes(input, s_box);
+    ShiftRows(input);
+    AddRoundKey(input, key + 10 * AES_BLOCK_SIZE);
 }

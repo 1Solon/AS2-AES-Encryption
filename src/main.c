@@ -1,10 +1,29 @@
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "functions/keyExpansion/keyExpansion.h"
+#include "functions/encrypt/encrypt.h"
 
 #define KEY_LEN 16  // 128-bit key length in bytes
 #define TOTAL_KEY_LEN 176  // Total length of the expanded key
+
+void text_to_input(const char* text, uint8_t* input, int size) {
+    int len = strlen(text);
+    for (int i = 0; i < size; i++) {
+        if (i < len) {
+            input[i] = (uint8_t)text[i];
+        } else {
+            input[i] = 0;  // padding with zeros if text is shorter than size
+        }
+    }
+}
+
+void hex_string_to_byte_array(const char* hex_string, uint8_t* byte_array) {
+    for (size_t i = 0; i < KEY_LEN; ++i) {
+        sscanf(hex_string + 2*i, "%02hhx", &byte_array[i]);
+    }
+}
 
 static const uint8_t S_BOX[256] = {
   //0   1     2     3     4     5     6     7     8     9     A     B     C     D     E     F
@@ -29,16 +48,24 @@ static const uint8_t S_BOX[256] = {
 static const uint8_t R_CON[11] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36, 0x6C };
 
 int main(void) {
-    uint8_t key[KEY_LEN] = { 0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c};
+    uint8_t key[KEY_LEN];
     uint8_t expandedKeys[TOTAL_KEY_LEN];
-    KeyExpansion(key, expandedKeys, S_BOX, R_CON, KEY_LEN, TOTAL_KEY_LEN);
+    uint8_t input[AES_BLOCK_SIZE];
 
-    for(int i = 0; i < 176; i++) {
-        printf("%02x ", expandedKeys[i]);
-        if ((i + 1) % 16 == 0) {
-            printf("\n");
-            }
-        }
+    const char* text = "00112233445566778899aabbccddeeff";
+    text_to_input(text, input, AES_BLOCK_SIZE);
+
+    const char* hex_key = "000102030405060708090a0b0c0d0e0f";
+    hex_string_to_byte_array(hex_key, key);
+
+
+    KeyExpansion(key, expandedKeys, S_BOX, R_CON, KEY_LEN, TOTAL_KEY_LEN);
+    encrypt(input, expandedKeys, S_BOX);
+    
+    printf("Encrypted text: ");
+    for (int i = 0; i < AES_BLOCK_SIZE; i++) {
+        printf("%02x", input[i]);
+    }
 
     return 0;
 }
