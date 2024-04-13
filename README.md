@@ -1,3 +1,4 @@
+<div align="center">
 ## AS2-AES-Encryption
 
 _Assignment to build a Rijndael-AES implementation in c_
