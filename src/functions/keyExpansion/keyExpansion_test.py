@@ -1,7 +1,7 @@
 import pytest, ctypes, subprocess, os
 from ctypes import c_uint8 as uint8_t
 
-def test_key_expansion():
+def test_keyExpansion():
     keyExpansion = ctypes.CDLL("build/libmyProgram_lib.so")
 
     # Define the constants
