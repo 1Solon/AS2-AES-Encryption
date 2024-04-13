@@ -25,6 +25,8 @@ The `aes_encrypt_block` function takes a 16-byte plaintext block and a 16-byte k
 ## Usage
 To use the library, simply include the `libRijndael_lib.so` or `rijndael.h`  header file in your project and link against the `rijndael` library.
 
+**Note: this project is intended as an example only, DO NOT EVER USE SELF-BUILT CRYPTO IN A REAL PROJECT.**
+
 ## Building
 To build the library, run the following commands:
 ```bash
