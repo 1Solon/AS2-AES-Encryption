@@ -20,6 +20,13 @@ void text_to_input(const char* text, uint8_t* input, int size) {
     }
 }
 
+void string_to_hex(const char* input, uint8_t* output, size_t output_size) {
+    size_t input_len = strlen(input);
+    for (size_t i = 0; i < input_len && i < output_size; i++) {
+        output[i] = (uint8_t) input[i];
+    }
+}
+
 int hex_to_bytes(const char *hex_str, uint8_t *byte_array, size_t byte_array_len) {
     char buf[3] = {0};
     size_t len = strlen(hex_str);
@@ -32,12 +39,23 @@ int hex_to_bytes(const char *hex_str, uint8_t *byte_array, size_t byte_array_len
     return 0;
 }
 
+
 void print_hex(const char *label, uint8_t *data, size_t data_len) {
     printf("%s: ", label);
     for (size_t i = 0; i < data_len; i++) {
         printf("%02x", data[i]);
     }
     printf("\n");
+}
+
+int is_hex(const char* str) {
+    while (*str) {
+        char c = *str++;
+        if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'))) {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 static const uint8_t S_BOX[256] = {
@@ -72,11 +90,23 @@ int main(void) {
     uint8_t key_bytes[16];
     uint8_t expandedKeys[TOTAL_KEY_LEN];
 
-    if (hex_to_bytes(text_hex, text_bytes, sizeof(text_bytes)) < 0 ||
-        hex_to_bytes(key_hex, key_bytes, sizeof(key_bytes)) < 0) {
+    if (is_hex(text_hex)) {
+    if (hex_to_bytes(text_hex, text_bytes, sizeof(text_bytes)) < 0) {
         printf("Error converting hex to bytes.\n");
-        return 1;
+        return 1;}
+    } else {
+        string_to_hex(text_hex, text_bytes, sizeof(text_bytes));
     }
+
+    if (is_hex(key_hex)) {
+        if (hex_to_bytes(key_hex, key_bytes, sizeof(key_bytes)) < 0) {
+            printf("Error converting hex to bytes.\n");
+            return 1;
+        }
+    } else {
+        string_to_hex(key_hex, key_bytes, sizeof(key_bytes));
+    }
+
 
     print_hex("Plaintext", text_bytes, sizeof(text_bytes));
     print_hex("Key", key_bytes, sizeof(key_bytes));
