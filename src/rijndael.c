@@ -1,65 +1,12 @@
-#include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "functions/Decrypt/Decrypt.h"
 #include "functions/Encrypt/Encrypt.h"
-#include "functions/keyExpansion/keyExpansion.h"
+#include "functions/KeyExpansion/KeyExpansion.h"
 
 #define KEY_LEN 16        // 128-bit key length in bytes
 #define TOTAL_KEY_LEN 176 // Total length of the expanded key
-
-void text_to_input(const char *text, uint8_t *input, int size) {
-  int len = strlen(text);
-  for (int i = 0; i < size; i++) {
-    if (i < len) {
-      input[i] = (uint8_t)text[i];
-    } else {
-      input[i] = 0; // padding with zeros if text is shorter than size
-    }
-  }
-}
-
-void string_to_hex(const char *input, uint8_t *output, size_t output_size) {
-  size_t input_len = strlen(input);
-  for (size_t i = 0; i < input_len && i < output_size; i++) {
-    output[i] = (uint8_t)input[i];
-  }
-}
-
-int hex_to_bytes(const char *hex_str, uint8_t *byte_array,
-                 size_t byte_array_len) {
-  char buf[3] = {0};
-  size_t len = strlen(hex_str);
-  if (len % 2 != 0 || len / 2 > byte_array_len)
-    return -1;
-
-  for (size_t i = 0; i < len; i += 2) {
-    strncpy(buf, &hex_str[i], 2);
-    byte_array[i / 2] = (uint8_t)strtol(buf, NULL, 16);
-  }
-  return 0;
-}
-
-void print_hex(const char *label, uint8_t *data, size_t data_len) {
-  printf("%s: ", label);
-  for (size_t i = 0; i < data_len; i++) {
-    printf("%02x", data[i]);
-  }
-  printf("\n");
-}
-
-int is_hex(const char *str) {
-  while (*str) {
-    char c = *str++;
-    if (!((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') ||
-          (c >= 'A' && c <= 'F'))) {
-      return 0;
-    }
-  }
-  return 1;
-}
 
 static const uint8_t S_BOX[256] = {
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b,
@@ -112,48 +59,31 @@ static const uint8_t INV_S_BOX[256] = {
 static const uint8_t R_CON[11] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20,
                                   0x40, 0x80, 0x1B, 0x36, 0x00};
 
-int main(void) {
-  const char *text_hex = "6bc1bee22e409f96e93d7e117393172a";
-  const char *key_hex = "2b7e151628aed2a6abf7158809cf4f3c";
-  uint8_t text_bytes[16];
-  uint8_t key_bytes[16];
-  uint8_t expandedKeys[TOTAL_KEY_LEN];
-
-  if (is_hex(text_hex)) {
-    if (hex_to_bytes(text_hex, text_bytes, sizeof(text_bytes)) < 0) {
-      printf("Error converting hex to bytes.\n");
-      return 1;
+void hex_string_to_byte_array(const char *hex_string, uint8_t *byte_array) {
+    size_t len = strlen(hex_string);
+    for(size_t i = 0; i < len; i += 2) {
+        sscanf(hex_string + i, "%2hhx", &byte_array[i / 2]);
     }
-  } else {
-    string_to_hex(text_hex, text_bytes, sizeof(text_bytes));
-  }
+}
 
-  if (is_hex(key_hex)) {
-    if (hex_to_bytes(key_hex, key_bytes, sizeof(key_bytes)) < 0) {
-      printf("Error converting hex to bytes.\n");
-      return 1;
-    }
-  } else {
-    string_to_hex(key_hex, key_bytes, sizeof(key_bytes));
-  }
+unsigned char *aes_encrypt_block(unsigned char *plaintext, unsigned char *key) {
+    unsigned char *ciphertext = (unsigned char *)malloc(AES_BLOCK_SIZE * sizeof(unsigned char));
+    memcpy(ciphertext, plaintext, AES_BLOCK_SIZE);
 
-  print_hex("Plaintext", text_bytes, sizeof(text_bytes));
-  print_hex("Key", key_bytes, sizeof(key_bytes));
+    unsigned char expanded_key[TOTAL_KEY_LEN];
+    KeyExpansion(key, expanded_key, S_BOX, R_CON, KEY_LEN, TOTAL_KEY_LEN);
 
-  KeyExpansion(key_bytes, expandedKeys, S_BOX, R_CON, KEY_LEN, TOTAL_KEY_LEN);
-  Encrypt(text_bytes, expandedKeys, S_BOX);
+    Encrypt(ciphertext, expanded_key, S_BOX);
+    return ciphertext;
+}
 
-  printf("Ciphertext: ");
-  for (int i = 0; i < AES_BLOCK_SIZE; i++) {
-    printf("%02x", text_bytes[i]);
-  }
+unsigned char *aes_decrypt_block(unsigned char *ciphertext, unsigned char *key) {
+    unsigned char *plaintext = (unsigned char *)malloc(AES_BLOCK_SIZE * sizeof(unsigned char));
+    memcpy(plaintext, ciphertext, AES_BLOCK_SIZE);
 
-  // Decrypt and print if it matches the original plaintext
-  Decrypt(text_bytes, expandedKeys, INV_S_BOX);
-  printf("\nDecrypted: ");
-  for (int i = 0; i < AES_BLOCK_SIZE; i++) {
-    printf("%02x", text_bytes[i]);
-  }
+    unsigned char expanded_key[TOTAL_KEY_LEN];
+    KeyExpansion(key, expanded_key, S_BOX, R_CON, KEY_LEN, TOTAL_KEY_LEN);
 
-  return 0;
+    Decrypt(plaintext, expanded_key, INV_S_BOX);
+    return plaintext;
 }
