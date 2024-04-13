@@ -1,4 +1,4 @@
-#include "Decrypt.h"
+#include "decrypt.h"
 
 void InvSubBytes(uint8_t state[AES_BLOCK_SIZE], const uint8_t inv_s_box[256]) {
   for (int i = 0; i < 16; ++i) {

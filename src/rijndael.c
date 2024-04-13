@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "functions/Decrypt/Decrypt.h"
-#include "functions/Encrypt/Encrypt.h"
-#include "functions/KeyExpansion/KeyExpansion.h"
+#include "functions/decrypt/decrypt.h"
+#include "functions/encrypt/encrypt.h"
+#include "functions/keyExpansion/keyExpansion.h"
 
 #define KEY_LEN 16        // 128-bit key length in bytes
 #define TOTAL_KEY_LEN 176 // Total length of the expanded key

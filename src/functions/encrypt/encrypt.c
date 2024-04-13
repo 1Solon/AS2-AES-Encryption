@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "Encrypt.h"
+#include "encrypt.h"
 
 // I hated implementing this, this took me HOURS!
 uint8_t gmul(uint8_t x, uint8_t y) {
