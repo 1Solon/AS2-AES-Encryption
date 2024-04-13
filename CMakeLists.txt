@@ -29,3 +29,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".exe")
 
 # Add the shared library
 add_library(${PROJECT_NAME}_lib SHARED ${SOURCES})
+
+# Set the output directory for the shared library
+set_target_properties(${PROJECT_NAME}_lib PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build)

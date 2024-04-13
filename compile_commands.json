@@ -1,0 +1,50 @@
+[
+{
+  "directory": "/workspace",
+  "command": "/usr/bin/cc  -I/workspace  -Wall -pedantic -Werror -std=c11 -o CMakeFiles/myProgram.dir/src/functions/decrypt/decrypt.c.o -c /workspace/src/functions/decrypt/decrypt.c",
+  "file": "/workspace/src/functions/decrypt/decrypt.c",
+  "output": "CMakeFiles/myProgram.dir/src/functions/decrypt/decrypt.c.o"
+},
+{
+  "directory": "/workspace",
+  "command": "/usr/bin/cc  -I/workspace  -Wall -pedantic -Werror -std=c11 -o CMakeFiles/myProgram.dir/src/functions/encrypt/encrypt.c.o -c /workspace/src/functions/encrypt/encrypt.c",
+  "file": "/workspace/src/functions/encrypt/encrypt.c",
+  "output": "CMakeFiles/myProgram.dir/src/functions/encrypt/encrypt.c.o"
+},
+{
+  "directory": "/workspace",
+  "command": "/usr/bin/cc  -I/workspace  -Wall -pedantic -Werror -std=c11 -o CMakeFiles/myProgram.dir/src/functions/keyExpansion/keyExpansion.c.o -c /workspace/src/functions/keyExpansion/keyExpansion.c",
+  "file": "/workspace/src/functions/keyExpansion/keyExpansion.c",
+  "output": "CMakeFiles/myProgram.dir/src/functions/keyExpansion/keyExpansion.c.o"
+},
+{
+  "directory": "/workspace",
+  "command": "/usr/bin/cc  -I/workspace  -Wall -pedantic -Werror -std=c11 -o CMakeFiles/myProgram.dir/src/main.c.o -c /workspace/src/main.c",
+  "file": "/workspace/src/main.c",
+  "output": "CMakeFiles/myProgram.dir/src/main.c.o"
+},
+{
+  "directory": "/workspace",
+  "command": "/usr/bin/cc -DmyProgram_lib_EXPORTS -I/workspace  -Wall -pedantic -Werror -std=c11 -fPIC -o CMakeFiles/myProgram_lib.dir/src/functions/decrypt/decrypt.c.o -c /workspace/src/functions/decrypt/decrypt.c",
+  "file": "/workspace/src/functions/decrypt/decrypt.c",
+  "output": "CMakeFiles/myProgram_lib.dir/src/functions/decrypt/decrypt.c.o"
+},
+{
+  "directory": "/workspace",
+  "command": "/usr/bin/cc -DmyProgram_lib_EXPORTS -I/workspace  -Wall -pedantic -Werror -std=c11 -fPIC -o CMakeFiles/myProgram_lib.dir/src/functions/encrypt/encrypt.c.o -c /workspace/src/functions/encrypt/encrypt.c",
+  "file": "/workspace/src/functions/encrypt/encrypt.c",
+  "output": "CMakeFiles/myProgram_lib.dir/src/functions/encrypt/encrypt.c.o"
+},
+{
+  "directory": "/workspace",
+  "command": "/usr/bin/cc -DmyProgram_lib_EXPORTS -I/workspace  -Wall -pedantic -Werror -std=c11 -fPIC -o CMakeFiles/myProgram_lib.dir/src/functions/keyExpansion/keyExpansion.c.o -c /workspace/src/functions/keyExpansion/keyExpansion.c",
+  "file": "/workspace/src/functions/keyExpansion/keyExpansion.c",
+  "output": "CMakeFiles/myProgram_lib.dir/src/functions/keyExpansion/keyExpansion.c.o"
+},
+{
+  "directory": "/workspace",
+  "command": "/usr/bin/cc -DmyProgram_lib_EXPORTS -I/workspace  -Wall -pedantic -Werror -std=c11 -fPIC -o CMakeFiles/myProgram_lib.dir/src/main.c.o -c /workspace/src/main.c",
+  "file": "/workspace/src/main.c",
+  "output": "CMakeFiles/myProgram_lib.dir/src/main.c.o"
+}
+]

@@ -1,5 +1,9 @@
-*.o*
-*.so*
-*cache*
-/build
-language-server-log.txt
+/.cache
+/.pytest_cache
+/CMakeFiles
+/Build
+# the wildcard is needed :<
+*__pycache__*
+CMakeCache.txt
+cmake_install.cmake
+Makefile

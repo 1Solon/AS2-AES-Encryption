@@ -21,6 +21,9 @@ jobs:
 
       - name: Install dependencies
         run: pip install pytest
+
+      - name: Build the project
+        run: cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && make
       
       - name: Run tests
         run: pytest
