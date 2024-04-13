@@ -28,7 +28,7 @@ To use the library, simply include the `libRijndael_lib.so` or `rijndael.h`  hea
 ## Building
 To build the library, simply run the following commands:
 ```bash
-cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && make
+cmake . -DCMAKE_EXPORT_COMPILE_COMMANDS=1 && make
 ```
 This will generate the `libRijndael_lib.so` shared library in the `build` directory.
 
