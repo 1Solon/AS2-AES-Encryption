@@ -66,8 +66,8 @@ static const uint8_t R_CON[11] = {
 
 
 int main(void) {
-    const char* text_hex = "00112233445566778899aabbccddeeff";
-    const char* key_hex = "111102030405060708090a0b0c0d0e0f";
+    const char* text_hex = "6bc1bee22e409f96e93d7e117393172a";
+    const char* key_hex = "2b7e151628aed2a6abf7158809cf4f3c";
     uint8_t text_bytes[16];
     uint8_t key_bytes[16];
     uint8_t expandedKeys[TOTAL_KEY_LEN];
@@ -82,7 +82,7 @@ int main(void) {
     print_hex("Key", key_bytes, sizeof(key_bytes));
 
 
-    KeyExpansion(text_bytes, expandedKeys, S_BOX, R_CON, KEY_LEN, TOTAL_KEY_LEN);
+    KeyExpansion(key_bytes, expandedKeys, S_BOX, R_CON, KEY_LEN, TOTAL_KEY_LEN);
     encrypt(text_bytes, expandedKeys, S_BOX);
     
     printf("Encrypted text: ");
