@@ -26,3 +26,6 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 # Set the output file extension to .exe
 set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".exe")
+
+# Add the shared library
+add_library(${PROJECT_NAME}_lib SHARED ${SOURCES})
