@@ -43,7 +43,7 @@ pip install pytest
 ```
 
 ## DevContainer
-This project includes a `devcontainer.json` file for use with Visual Studio Code's Remote - Containers extension. To use the devcontainer, simply open the project in Visual Studio Code and click the "Reopen in Container" button that appears in the bottom right corner of the window.
+This project includes a `devcontainer.json` file for use with Visual Studio Code. To use the devcontainer, simply open the project in Visual Studio Code and click the "Reopen in Container" button that appears in the bottom right corner of the window.
 
 ## Acknowledgements
 This project makes heavy use of examples from these links, which were invaluable in understanding the Rijndael-AES algorithm:
